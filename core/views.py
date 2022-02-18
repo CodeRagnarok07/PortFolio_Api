@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Projects, Skills, Formation, Exp
 # Create your views here.
 
@@ -16,3 +16,14 @@ def home(request):
     }
 
     return render(request, 'core/home.html', ctx)
+
+def project_view(request, project_slug):
+    project = get_object_or_404(Projects, slug=project_slug)
+    used_skill = Skills.objects.filter(projects=project)
+
+    ctx = {
+        "project":project,
+        "used_skill": used_skill,
+    }
+
+    return render(request, 'core/project_view.html', ctx)
