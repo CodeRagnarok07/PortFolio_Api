@@ -77,3 +77,12 @@ py-2 px-1 md:mx-5 ">
       </div>
   </nav>
 </div>
+
+<script>
+    const navbotton = document.querySelector("#navboton")
+    const navmenu = document.querySelector("#navmenu")
+    navbotton.addEventListener('click', () => { // al hacer click en el elemento despliege
+        console.log("hiso click ")
+        navmenu.classList.toggle("hidden") // le agrega la clase hidden al objeto itens
+    })
+</script>
