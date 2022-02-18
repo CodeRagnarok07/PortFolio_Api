@@ -10,28 +10,20 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-slate-800 text-white 
-        text-4xl sm:text-3xl md:text-2xl lg:text-xl xl:text-lg 
-        ">
+<body class="bg-slate-800 text-gray-200 
+text-4xl sm:text-3xl md:text-2xl lg:text-xl xl:text-lg">
 
   {% include 'navbar.html' %}
 
 
-<div class="min-h-full">
-  <header >
-    {% include 'heading.html' %}
-  </header>
-  
-  
-</div>
+
   {% block content %}
+  
   {% endblock content %}
 
 
-
-
-
   
+  {% include 'footer.html' %}
   <script src="{% static 'js/navbar.js' %}"></script>
 </body>
 
