@@ -27,3 +27,13 @@ def project_view(request, project_slug):
     }
 
     return render(request, 'core/project_view.html', ctx)
+
+def skill_view(request, skill_slug):
+    skill = get_object_or_404(Skills, slug=skill_slug)
+    projects = Projects.objects.filter(skills=skill)
+
+    ctx = {
+        "skill":skill,
+        "projects":projects,
+    }
+    return render(request, 'core/skill_view.html', ctx)

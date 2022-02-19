@@ -5,7 +5,9 @@
 
 {% block content %}
 
-<div class="grid grid-cols-1 md:grid-cols-2 " style="height:600px;">
+<div class="my-48">
+
+<div class="grid grid-cols-1 xl:grid-cols-2 ">
     <div class="flex items-end md:items-center ">
         <div class="mx-12">
             <img class="bg-black" src="{{ project.image.url }}" alt="">
@@ -13,18 +15,35 @@
 
     </div>
 
-    <div class="flex items-center justify-center text-center md:text-left  mx-auto ">
-        <div>
+    <div class="flex items-center justify-center xl:justify-start text-center xl:text-left xl:mt-12 mt-20 ">
+        <div class="max-w-full"> 
             <h2 class="text-3xl font-semibold text-gray-200 md:text-4xl">{{ project.name}} </h2>
-            <p class="mt-2 text-sm text-gray-500 md:text-base">{{ project.description}}</p>
+            <p class="mt-2 text-sm text-gray-500 md:text-base ">{{ project.description}}
+                
+            </p>
             <div class="flex justify-center lg:justify-start mt-6">
+
+                {% if project.gitHub %}
                 <a class="px-4 py-3 bg-gray-900 text-gray-200 text-xs font-semibold rounded hover:bg-gray-800"
-                    href="#">GitHub</a>
+                    target="__blank" href="{{project.gitHub}}">GitHub</a>
+                {% endif %}
+
+            
+                {% if project.live %}
                 <a class="mx-4 px-4 py-3 bg-gray-300 text-gray-900 text-xs font-semibold rounded hover:bg-gray-400"
-                    href="#">Live</a>
+                    target="__blank" href="{{ project.live}}">Live</a>
+                {% endif %}
+
             </div>
+
         </div>
     </div>
+
+    
+</div>
+{% if project.post %}
+<p class="container mx-auto mt-12  text-xl text-gray-500 md:text-base ">{{ project.post }}
+{% endif %}
 
 </div>
 
@@ -44,7 +63,7 @@
                     {% for s in used_skill %}
                     <li class="flex flex-col items-center ">
                         <!-- Ring -->
-                        <a href="#">
+                        <a href="{% url 'skill_view' s.slug %}">
 
                             <div class="story-ring flex justify-center items-center
                                 bg-gradient-to-tl from-blue-200 to-green-500 
@@ -74,20 +93,7 @@
             </div>
         </div>
     </div>
-    <!-- <div class="grid grid-cols-8 md:grid-cols-12 ">
-        <div class="px-5 py-2">
-            <a href="#"
-            class="text-base leading-6 text-gray-400 
-            hover:text-gray-50 hover:bg-sky-800 
-            px-3 py-1 
-            hover:border 
-            border-sky-700 
-            rounded">
-    
-                Terms
-            </a>
-        </div>
-    </div> -->
+
 </div>
 
 
