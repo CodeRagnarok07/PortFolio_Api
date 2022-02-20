@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Projects, Skills, Formation, Exp
+from django.conf import settings
 # Create your views here.
 
 def home(request):
@@ -37,3 +38,29 @@ def skill_view(request, skill_slug):
         "projects":projects,
     }
     return render(request, 'core/skill_view.html', ctx)
+
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from .forms import ContactForm
+
+def contactView(request):
+    if request.method == 'GET':
+        form = ContactForm()
+    else:
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            from_email = form.cleaned_data['from_email']
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            try:
+                send_mail(subject, message, from_email, [settings.DEFAULT_TO_EMAIL])
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+            return redirect('contact_success')
+    print(form)
+    return render(request, "core/contact.html", {'form': form})
+
+
+def contact_success(request):
+    return render(request, "core/contact_success.html")
