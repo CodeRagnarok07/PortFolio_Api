@@ -9,6 +9,9 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+
+import django_heroku        ## HEROKU DEPLOY
+import dj_database_url      ## HEROKU DEPLOY
 import os
 from pathlib import Path
 
@@ -85,12 +88,12 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+DATABASES = {}
+# Usa la variable de entorno DATABASE_URL="esta"
+django_heroku.settings(locals())
+options = DATABASES['default'].get('OPTIONS', {})
+options.pop('sslmode', None)
+DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 
 # Password validation
@@ -120,7 +123,7 @@ EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587 
-EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+EMAIL_USE_TLS = True
 
 
 # Internationalization
@@ -149,6 +152,8 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'build/static'),
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media/'
 
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 
 # Default primary key field type
