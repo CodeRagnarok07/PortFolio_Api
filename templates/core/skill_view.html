@@ -77,10 +77,15 @@
                         <p class="text-sm text-gray-50"> {{p.date}}</p>
 
                         <div class="flex justify-between ">
+                            {% if p.gitHub %}
                             <a class="px-2 py-1 mx-1 bg-gray-900 text-gray-200 text-xs rounded hover:bg-gray-800"
                                 href="#">GitHub</a>
+                            {% endif %}
+    
+                            {% if p.live %}
                             <a class="px-2 py-1 mx-1 bg-gray-300 text-gray-900 text-xs rounded hover:bg-gray-400"
                                 href="#">Live</a>
+                            {% endif %}
                         </div>
                     </div>
 

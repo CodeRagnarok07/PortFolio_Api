@@ -149,8 +149,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'staticfiles')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'build/static'),
 )
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media/'
+MEDIA_URL = '/static/media/'
+MEDIA_ROOT = BASE_DIR / 'static/media/'
 
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
