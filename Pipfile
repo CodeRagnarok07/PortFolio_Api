@@ -16,6 +16,7 @@ sqlparse = "==0.4.2"
 whitenoise = "==6.0.0"
 gunicorn = "*"
 djangorestframework = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 
