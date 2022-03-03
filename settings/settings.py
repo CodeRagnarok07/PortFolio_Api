@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
+    'rest_framework',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -116,14 +117,14 @@ AUTH_PASSWORD_VALIDATORS = [
 
 
 
-EMAIL_BACKEND = env('EMAIL_BACKEND')
-DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
-DEFAULT_TO_EMAIL = env('DEFAULT_TO_EMAIL')
-EMAIL_HOST = env('EMAIL_HOST')
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-EMAIL_PORT = 587 
-EMAIL_USE_TLS = True
+# EMAIL_BACKEND = env('EMAIL_BACKEND')
+# DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+# DEFAULT_TO_EMAIL = env('DEFAULT_TO_EMAIL')
+# EMAIL_HOST = env('EMAIL_HOST')
+# EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+# EMAIL_PORT = 587 
+# EMAIL_USE_TLS = True
 
 
 # Internationalization
@@ -143,21 +144,20 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATIC_URL = '/build/static/'
+# STATIC_URL = '/build/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'staticfiles')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'build/static'),
-)
+# STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'staticfiles')
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'build/static'),
+# )
 
-MEDIA_URL = '/static/media/'
-MEDIA_ROOT = BASE_DIR / 'static/media/'
+# MEDIA_URL = '/static/media/'
+# MEDIA_ROOT = BASE_DIR / 'static/media/'
 
 
-X_FRAME_OPTIONS = 'SAMEORIGIN'
+# X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
