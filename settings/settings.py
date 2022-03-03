@@ -39,7 +39,6 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG') 
 ALLOWED_HOSTS = [env('ALLOWED_HOSTS')] #[ '127.0.0.1', 'localhost'] 
 
-print(ALLOWED_HOSTS)
 
 # Application definition
 
@@ -65,6 +64,13 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'settings.urls'
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticated',
+#         'rest_framework.permissions.IsAdminUser',
+#     ]
+# }
 
 TEMPLATES = [
     {
