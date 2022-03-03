@@ -15,13 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.conf.urls.static import  static  # add this
-from django.conf import settings # add this
+from rest_framework import routers                      
+from api import views                                 
+
+router = routers.DefaultRouter()                        
+router.register(r'ExpViews', views.ExpView, 'ExpViews')       
+router.register(r'SkillsView', views.SkillsView, 'SkillsView')       
+router.register(r'ProjectsView', views.ProjectsView, 'ProjectsView')       
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('core.urls'))
+    path('api/', include(router.urls))   
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

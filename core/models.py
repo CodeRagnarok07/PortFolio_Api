@@ -48,7 +48,8 @@ class Formation(models.Model):
 
 class Skills(models.Model):
     name = models.CharField(max_length=255)
-    image = models.FileField(null=True, upload_to='skills')
+    image =  models.URLField( null=True, blank=True)
+
     description = models.TextField()
 
     slug = models.SlugField(null=True, blank=True)
@@ -75,7 +76,9 @@ class Projects(models.Model):
     gitHub =  models.URLField(blank=True)
     live =  models.URLField(blank=True)
 
-    image = models.FileField(null=True, blank=True, upload_to='projects')
+    image =  models.URLField( null=True, blank=True)
+    
+    # image = models.FileField(null=True, blank=True, upload_to='projects')
     
     skills = models.ManyToManyField(Skills, related_name="projects")
     slug = models.SlugField(null=True, blank=True)
