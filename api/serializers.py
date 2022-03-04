@@ -8,11 +8,11 @@ class ExpSerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
 class SkillsSerializers(serializers.ModelSerializer):
     class Meta:
         model = Skills
         fields = '__all__'
+
 
 class ProjectsSerializers(serializers.ModelSerializer):
     class Meta:
