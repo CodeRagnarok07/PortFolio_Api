@@ -37,7 +37,11 @@ SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
-ALLOWED_HOSTS = [env('ALLOWED_HOSTS')]  # [ '127.0.0.1', 'localhost']
+
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+else:
+    ALLOWED_HOSTS = [env('ALLOWED_HOSTS')]
 
 
 # Application definition
@@ -53,6 +57,7 @@ INSTALLED_APPS = [
     # backend
     'corsheaders',
     'rest_framework',
+    'ckeditor',
 
     # apps
     'api',
@@ -70,15 +75,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# url frontend request
+# CORS_ORIGIN_ALLOW_ALL=True
+if DEBUG:
+    CORS_ALLOWED_ORIGINS = [
+        'http://localhost:3000',
+    ]
+else:
+    CORS_ALLOWED_ORIGINS = [
+        env('CORS_ALLOWED_ORIGINS'),
+    ]
 
-# CORS_ORIGIN_ALLOW_ALL = False
-# CORS_ORIGIN_WHITELIST = (
-#   'http://localhost:8000',
-#   'http://localhost:3000',
-#   'https://ragandroll.github.io'
-# )
-
-CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'settings.urls'
 
@@ -112,16 +119,28 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('POSTGRES_NAME'),
-        'USER': env('POSTGRES_USER'),
-        'PASSWORD': env('POSTGRES_PASSWORD'),
-        'HOST': env('POSTGRES_HOST'),
-        'PORT': '5432',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': env('POSTGRES_NAME'),
+            'USER': env('POSTGRES_USER'),
+            'PASSWORD': env('POSTGRES_PASSWORD'),
+            'HOST': env('POSTGRES_HOST'),
+            'PORT': '5432',
+        }
     }
-}
+else: 
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': env('PRODUCTION_POSTGRES_NAME'),
+            'USER': env('PRODUCTION_POSTGRES_USER'),
+            'PASSWORD': env('PRODUCTION_POSTGRES_PASSWORD'),
+            'HOST': env('PRODUCTION_POSTGRES_HOST'),
+            'PORT': '5432',
+        }
+    }
 
 # # Usa la variable de entorno DATABASE_URL="esta"
 # django_heroku.settings(locals())
@@ -148,40 +167,28 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
+# REST_FRAMEWORK = {
+#     # Use Django's standard `django.contrib.auth` permissions,
+#     # or allow read-only access for unauthenticated users.
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+#     ],
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ),
 
-}
+# }
 
 
-# SIMPLE_JWT settings https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    # 'ROTATE_REFRESH_TOKENS': True,
-    # 'BLACKLIST_AFTER_ROTATION': True, ## add this for use refresh token and expire access token
-    'AUTH_HEADER_TYPES': ('Bearer',),
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-}
-
-# url frontend request
-
-# CORS_ORIGIN_ALLOW_ALL=True
-if DEBUG:
-    CORS_ALLOWED_ORIGINS = [
-        'http://localhost:3000',
-    ]
-else:
-    CORS_ALLOWED_ORIGINS = [
-        env('CORS_ALLOWED_ORIGINS'),
-    ]
+# # SIMPLE_JWT settings https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
+# SIMPLE_JWT = {
+#     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+#     # 'ROTATE_REFRESH_TOKENS': True,
+#     # 'BLACKLIST_AFTER_ROTATION': True, ## add this for use refresh token and expire access token
+#     'AUTH_HEADER_TYPES': ('Bearer',),
+#     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+# }
 
 
 # Default primary key field type
