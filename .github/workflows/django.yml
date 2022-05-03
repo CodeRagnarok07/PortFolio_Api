@@ -27,9 +27,9 @@ jobs:
     - name: Create virtual environment with dependencies
       run: |
         python -m pipenv install
-    - name: Run Tests
-      run: |
-        pipenv run python manage.py test
+    # - name: Run Tests
+    #   run: |
+    #     pipenv run python manage.py test
     - name: Run migrations
       run: |
         pipenv run python manage.py migrate
