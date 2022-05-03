@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+from datetime import timedelta
 import django_heroku  # HEROKU DEPLOY
 import dj_database_url  # HEROKU DEPLOY
 import os
@@ -48,15 +49,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # backend
     'corsheaders',
     'rest_framework',
+
+    # apps
     'api',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # add this
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # add this
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # 'whitenoise'
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -106,12 +112,22 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {}
-# Usa la variable de entorno DATABASE_URL="esta"
-django_heroku.settings(locals())
-options = DATABASES['default'].get('OPTIONS', {})
-options.pop('sslmode', None)
-DATABASES['default'] = dj_database_url.config(conn_max_age=600)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('POSTGRES_NAME'),
+        'USER': env('POSTGRES_USER'),
+        'PASSWORD': env('POSTGRES_PASSWORD'),
+        'HOST': env('POSTGRES_HOST'),
+        'PORT': '5432',
+    }
+}
+
+# # Usa la variable de entorno DATABASE_URL="esta"
+# django_heroku.settings(locals())
+# options = DATABASES['default'].get('OPTIONS', {})
+# options.pop('sslmode', None)
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600)
 
 
 # Password validation
@@ -132,15 +148,46 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
 
-# EMAIL_BACKEND = env('EMAIL_BACKEND')
-# DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
-# DEFAULT_TO_EMAIL = env('DEFAULT_TO_EMAIL')
-# EMAIL_HOST = env('EMAIL_HOST')
-# EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
+}
+
+
+# SIMPLE_JWT settings https://django-rest-framework-simplejwt.readthedocs.io/en/latest/settings.html
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    # 'ROTATE_REFRESH_TOKENS': True,
+    # 'BLACKLIST_AFTER_ROTATION': True, ## add this for use refresh token and expire access token
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+}
+
+# url frontend request
+
+# CORS_ORIGIN_ALLOW_ALL=True
+if DEBUG:
+    CORS_ALLOWED_ORIGINS = [
+        'http://localhost:3000',
+    ]
+else:
+    CORS_ALLOWED_ORIGINS = [
+        env('CORS_ALLOWED_ORIGINS'),
+    ]
+
+
+# Default primary key field type
+# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Internationalization
@@ -160,18 +207,17 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# STATIC_URL = '/build/static/'
+STATIC_URL = '/build/static/'
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'staticfiles')
-# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'build/static'),
-# )
+STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'staticfiles')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'build/static'),
+)
 
-# MEDIA_URL = '/static/media/'
-# MEDIA_ROOT = BASE_DIR / 'static/media/'
+MEDIA_URL = '/static/media/'
+MEDIA_ROOT = BASE_DIR / 'static/media/'
 
 
 # X_FRAME_OPTIONS = 'SAMEORIGIN'
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
