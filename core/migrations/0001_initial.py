@@ -42,7 +42,7 @@ class Migration(migrations.Migration):
                 ('gitHub', models.URLField(blank=True)),
                 ('live', models.URLField(blank=True)),
                 ('image', models.URLField(blank=True, null=True)),
-                ('skills', models.ManyToManyField(related_name='projects', to='api.Skills')),
+                ('skills', models.ManyToManyField(related_name='projects', to='core.Skills')),
             ],
         ),
     ]
