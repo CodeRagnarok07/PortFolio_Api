@@ -16,16 +16,20 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from core import views                                 
+# from core import views
 
-router = routers.DefaultRouter()                        
-router.register(r'ExpViews', views.ExpView, 'ExpViews')       
-router.register(r'SkillsView', views.SkillsView, 'SkillsView')       
-router.register(r'ProjectsView', views.ProjectsView, 'ProjectsView')       
-
-
+router = routers.DefaultRouter()
+# router.register(r'ExpViews', views.ExpView, 'ExpViews')
+# router.register(r'SkillsView', views.SkillsView, 'SkillsView')
+# router.register(r'ProjectsView', views.ProjectsView, 'ProjectsView')
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls))   
+    path('api/', include(router.urls)),
+
+    path('summernote/', include('django_summernote.urls')),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
