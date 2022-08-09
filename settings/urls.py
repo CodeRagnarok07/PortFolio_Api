@@ -14,21 +14,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework import routers
-
-# from core import views
-
-router = routers.DefaultRouter()
-# router.register(r'ExpViews', views.ExpView, 'ExpViews')
-# router.register(r'SkillsView', views.SkillsView, 'SkillsView')
-# router.register(r'ProjectsView', views.ProjectsView, 'ProjectsView')
 from django.conf import settings
 from django.conf.urls.static import static
 
+from rest_framework import routers
+
+
+
+router = routers.DefaultRouter()
+
+# router.register(r'skills', apiSkills))
+# router.register(r'ProjectsView', views.ProjectsView, 'ProjectsView')
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-
+    path('', include(router.urls)),
+    path('portfolio/', include('portfolio.urls')),
+    
     path('summernote/', include('django_summernote.urls')),
 ]
 

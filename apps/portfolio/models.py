@@ -7,5 +7,6 @@ from django.db import models
 
 class Skills(models.Model):
     name = models.CharField(max_length=100)
-    image = models.ImageField()
+    svg = models.TextField()
     description = models.TextField()
+    color = models.CharField(max_length=10)  # fffff

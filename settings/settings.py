@@ -10,14 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from datetime import timedelta
-import django_heroku  # HEROKU DEPLOY
-import dj_database_url  # HEROKU DEPLOY
-import os
 from pathlib import Path
-
 import os
+import sys
+import django_heroku  # HEROKU DEPLOY
+import dj_database_url  
+
 import environ  # add this
+
+
 env = environ.Env(  # add this
     # set casting, default value
     DEBUG=(bool, False)         # add this
@@ -45,6 +46,7 @@ else:
 
 
 # Application definition
+sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -172,18 +174,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 STATIC_URL = '/build/static/'
-
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'build/static'),
-                    )
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'build/static'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'staticfiles')
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-
-# X_FRAME_OPTIONS = 'SAMEORIGIN'
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+SUMMERNOTE_THEME = 'bs3'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
