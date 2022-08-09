@@ -13,25 +13,28 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+
+from django.views.generic import TemplateView
+
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 
-from rest_framework import routers
-
-
-
-router = routers.DefaultRouter()
-
+# from rest_framework import routers
+# router = routers.DefaultRouter()
 # router.register(r'skills', apiSkills))
 # router.register(r'ProjectsView', views.ProjectsView, 'ProjectsView')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls)),
     path('portfolio/', include('portfolio.urls')),
-    
-    path('summernote/', include('django_summernote.urls')),
+
+
+    path("summernote/", include("django_summernote.urls")),
+    path('editor/', include('django_summernote.urls')),
 ]
 
+# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# urlpatterns += [re_path(r'^.*',TemplateView.as_view(template_name='index.html'))]

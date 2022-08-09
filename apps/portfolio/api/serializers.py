@@ -1,30 +1,29 @@
 from rest_framework import serializers
-from portfolio.models import Skills
+from portfolio.models import Skill, Project, Work
 # from django.contrib.auth.models import User
-
 
 
 class SkillsSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Skills
+        model = Skill
         fields = '__all__'
 
 
+class WorkSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = Work
+        fields = '__all__'
+    skills = SkillsSerializers(many=True)
 
 
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = '__all__'
+class ProjectsSerializers(serializers.ModelSerializer):
 
+    class Meta:
+        model = Project
+        fields = '__all__'
 
-# class ExpSerializers(serializers.ModelSerializer):
-#     class Meta:
-#         model = Exp
-#         fields = '__all__'
+    skills = SkillsSerializers(many=True)
 
-# class ProjectsSerializers(serializers.ModelSerializer):
-#     class Meta:
-#         model = Projects
-#         fields = '__all__'
-#     skills = SkillsSerializers(many=True)
+    def get_image_url(self, obj):
+        return obj.img.url
