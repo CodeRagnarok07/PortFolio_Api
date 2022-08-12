@@ -7,23 +7,29 @@ from django.db import models
 
 
 class Skill(models.Model):
+    order = models.IntegerField(null=True, blank=True, unique=True)
     name = models.CharField(max_length=100)
     svg = models.TextField()
     description = models.TextField()
     color = models.CharField(max_length=10)  # fffff
-
+    
+    def __str__(self):
+        return self.name
+    class Meta:
+        ordering = ['order']
 
 class Work(models.Model):  # Ultimos trabajos realizados trabajos realizados layout y frelance
     # TODO ordenar por id osea edicion
+
     name = models.CharField(max_length=255)
     img = models.ImageField(upload_to='works')
     live = models.URLField(null=True, blank=True)
 
-    place = models.CharField(max_length=255)
+    place = models.CharField(null=True, blank=True, max_length=255)
     place_web = models.URLField(null=True, blank=True)
 
-    my_title = models.CharField(max_length=255)
-    description = models.TextField()
+    my_title = models.CharField(null=True, blank=True, max_length=255)
+    description = models.TextField(null=True, blank=True)
 
     init_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
@@ -33,7 +39,8 @@ class Work(models.Model):  # Ultimos trabajos realizados trabajos realizados lay
 
     def __str__(self):
         return self.name
-
+    class Meta:
+        ordering = ['-init_date']
 
 class Project(models.Model):  # proyectos personales
 
@@ -43,11 +50,12 @@ class Project(models.Model):  # proyectos personales
 
 
     init_date = models.DateField()
-
     intro = models.TextField()
     description = models.TextField()  # blog
-
     skills = models.ManyToManyField(Skill, related_name="projects")
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['-init_date']
