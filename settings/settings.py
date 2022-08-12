@@ -45,13 +45,14 @@ ALLOWED_HOST = ['*']
 # Application definition
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
 
     # backend
     'corsheaders',
@@ -62,7 +63,21 @@ INSTALLED_APPS = [
     # 'core',
 
     'portfolio',
+
+    # cloudinary_storage
+    'cloudinary_storage',
+    'django.contrib.staticfiles',
+    'cloudinary',
+    # ...
 ]
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUD_NAME'),
+    'API_KEY': env('API_KEY'),
+    'API_SECRET': env('API_SECRET'),
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -77,15 +92,8 @@ MIDDLEWARE = [
 ]
 
 # url frontend request
-# CORS_ORIGIN_ALLOW_ALL=True
-if DEBUG:
-    CORS_ALLOWED_ORIGINS = [
-        'http://localhost:3000',
-    ]
-else:
-    CORS_ALLOWED_ORIGINS = [
-        env('CORS_ALLOWED_ORIGINS'),
-    ]
+CORS_ORIGIN_ALLOW_ALL=True
+# CORS_ALLOWED_ORIGINS = ['*']
 
 
 ROOT_URLCONF = 'settings.urls'
@@ -172,10 +180,12 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_URL = '/build/static/'
+STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'build/static'),)
 STATIC_ROOT = os.path.join(BASE_DIR, 'build', 'staticfiles')
 
 MEDIA_URL = "/media/"
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
