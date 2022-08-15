@@ -20,7 +20,7 @@ class Skill(models.Model):
 
 class Work(models.Model):  # Ultimos trabajos realizados trabajos realizados layout y frelance
     # TODO ordenar por id osea edicion
-
+    
     name = models.CharField(max_length=255)
     img = models.ImageField(upload_to='works')
     live = models.URLField(null=True, blank=True)

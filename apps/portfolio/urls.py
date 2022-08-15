@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .api.view import apiSkills, apiWorks, apiProjects
+from .views import apiSkills, apiWorks, apiProjects
 
 urlpatterns = [
     path('skills/', apiSkills.as_view()),
